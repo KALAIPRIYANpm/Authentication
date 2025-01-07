@@ -1,0 +1,75 @@
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
+import Validation from "./validation";
+
+const LoginPage = () => {
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
+  const handleInputs = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const validationErrors = Validation(values);
+    setErrors(validationErrors);
+  };
+
+  return (
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-4">
+          <div className="card">
+            <div className="card-body">
+              <h2 className="text-center">Login</h2>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    placeholder="Enter your email"
+                    onChange={handleInputs}
+                    value={values.email}
+                  />
+                  {errors.email && <span className="text-danger">{errors.email}</span>}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    placeholder="Enter your password"
+                    onChange={handleInputs}
+                    value={values.password}
+                  />
+                  {errors.password && <span className="text-danger">{errors.password}</span>}
+                </div>
+                <button type="submit" className="btn btn-primary w-100">Login</button>
+              </form>
+              <div className="mt-3 text-center">
+                <button
+                  className="btn btn-link"
+                  onClick={() => navigate("/signup")}
+                >
+                  Don't have an account? Signup here.
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;
