@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import signupValidation from "./SignUpValidation";
+import axios from "axios";
+
 
 const SignupPage = () => {
   const [values, setValues] = useState({
@@ -26,9 +28,15 @@ const SignupPage = () => {
     const validationErrors = signupValidation(values);
     setError(validationErrors);
 
-    if (Object.keys(validationErrors).length === 0) {
-      console.log("Navigating to login page...");
-      navigate("/loginpage"); // Redirect to LoginPage
+    // if (Object.keys(validationErrors).length === 0) {
+    //   console.log("Navigating to login page...");
+    //   navigate("/loginpage"); // Redirect to LoginPage
+    // }
+
+    if(error.name === ""&& error.email === "" && error.password === ""){
+      axios.post(`http://localhost:1234/signup`,values)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
     }
   };
 
