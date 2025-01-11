@@ -1,10 +1,10 @@
 
-POST http://localhost/1234/signup
+POST http://localhost:1234/signup
 Content-Type: application/json
 
 {
-    "id":1,
-    "name":"kalai",
+    "id":3,
+    "name":"Kalaipriyan",
     "email":"kalaipriyan7777@gmail.com",
     "password":"Kalai@2005"
 }
