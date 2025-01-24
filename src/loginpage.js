@@ -1,7 +1,22 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
-import Validation from "./validation";
+import axios from "axios";
+
+// Validation function
+const validateInputs = (values) => {
+  const errors = {};
+  if (!values.email) {
+    errors.email = "Email is required";
+  } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+    errors.email = "Invalid email format";
+  }
+
+  if (!values.password) {
+    errors.password = "Password is required";
+  }
+  return errors;
+};
 
 const LoginPage = () => {
   const [values, setValues] = useState({
@@ -10,16 +25,38 @@ const LoginPage = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [apiMessage, setApiMessage] = useState("");
   const navigate = useNavigate();
 
+  // Handle form inputs
   const handleInputs = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  // Handle form submission
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const validationErrors = Validation(values);
+    const validationErrors = validateInputs(values);
     setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      try {
+        // Make the API call to the backend
+        const response = await axios.post("http://localhost:1234/login", values);
+        console.log(response.data);
+
+        // Show success message and navigate to the dashboard
+        setApiMessage("Login successful! Redirecting...");
+        setTimeout(() => navigate("/dashboard"), 2000); // Adjust path as needed
+      } catch (err) {
+        console.error("API Error:", err.message);
+        setApiMessage(
+          err.response?.data?.message || "An error occurred during login."
+        );
+      }
+    } else {
+      setApiMessage("");
+    }
   };
 
   return (
@@ -56,6 +93,7 @@ const LoginPage = () => {
                 </div>
                 <button type="submit" className="btn btn-primary w-100">Login</button>
               </form>
+              {apiMessage && <p className="text-center mt-3">{apiMessage}</p>}
               <div className="mt-3 text-center">
                 <button
                   className="btn btn-link"
