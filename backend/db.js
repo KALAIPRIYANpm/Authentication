@@ -52,14 +52,12 @@ app.post('/login', (req, res) => {
     if (!email || !password) {
         return res.status(400).json({ message: "All fields are required" });
     }
-
     const sql = "SELECT * FROM login WHERE email = ? AND password = ?";
     db.query(sql, [email, password], (err, result) => {
         if (err) {
             console.error("Database query error:", err);
             return res.status(500).json({ message: "Database error", error: err.message });
         }
-
         if (result.length > 0) {
             return res.status(200).json({ message: "Login successful", user: result[0] });
         } else {
