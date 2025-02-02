@@ -30,13 +30,17 @@ app.listen(1234, () => {
 
 app.post('/signup', (req, res) => {
     const sql = "INSERT INTO login (name, email, password) VALUES (?, ?, ?)";
-    const values = [
+    // const values = [
+    //     req.body.name,
+    //     req.body.email,
+    //     req.body.password
+    // ];
+
+    db.query(sql,  [
         req.body.name,
         req.body.email,
         req.body.password
-    ];
-
-    db.query(sql, values, (err,data) => {
+    ], (err,data) => {
         if (err) {
             console.error("Database query error: ", err);
             return res.status(500).json({ message: "ERROR", error: err.message });
