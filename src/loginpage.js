@@ -41,13 +41,13 @@ const LoginPage = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       try {
-        // Make the API call to the backend
+        
         const response = await axios.post("http://localhost:1234/login", values);
         console.log(response.data);
 
-        // Show success message and navigate to the dashboard
+        
         setApiMessage("Login successful! Redirecting...");
-        setTimeout(() => navigate("/dashboard"), 2000); // Adjust path as needed
+        setTimeout(() => navigate("/dashboard"), 2000);
       } catch (err) {
         console.error("API Error:", err.message);
         setApiMessage(
