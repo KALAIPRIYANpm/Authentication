@@ -16,4 +16,11 @@ Content-Type: application/json
     "email":"kalaipriyan7777@gmail.com",
     "password":"Kalai@2005"
 }
+###
+POST http://localhost:1234/trylogin
+Content-Type: application/json
 
+{
+    "email":"kalaipriyan7777@gmail.com",
+    "password":"Kalai@2005"
+}
