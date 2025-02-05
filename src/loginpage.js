@@ -44,11 +44,16 @@ const LoginPage = () => {
         const res = await axios.post("http://localhost:1234/login", values);
 
         if (res.data.role === "admin") {
-            navigate("/admin"); 
-            setApiMessage("Welcome Admin",3000);
+          setApiMessage("Welcome Admin! Redirecting...");
+          setTimeout(() => navigate("/admin"), 2000);
+            // navigate("/admin"); 
+            // setApiMessage("Welcome Admin");
             // setTimeout("Redirecting you to Admin Page ",3000);
         } else {
-            navigate("/user");
+            // navigate("/user");
+
+            setApiMessage("Welcome User! Redirecting...");
+            setTimeout(() => navigate("/user"), 2000);
         }
     } catch (error) {
         alert("Invalid email or password");
