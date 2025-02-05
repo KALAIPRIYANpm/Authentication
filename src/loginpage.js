@@ -41,19 +41,18 @@ const LoginPage = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       try {
-        
-        const response = await axios.post("http://localhost:1234/login", values);
-        console.log(response.data);
+        const res = await axios.post("http://localhost:1234/login", values);
 
-        
-        setApiMessage("Login successful! Redirecting...");
-        setTimeout(() => navigate("/dashboard"), 2000);
-      } catch (err) {
-        console.error("API Error:", err.message);
-        setApiMessage(
-          err.response?.data?.message || "An error occurred during login."
-        );
-      }
+        if (res.data.role === "admin") {
+            navigate("/admin"); 
+            setApiMessage("Welcome Admin",3000);
+            // setTimeout("Redirecting you to Admin Page ",3000);
+        } else {
+            navigate("/user");
+        }
+    } catch (error) {
+        alert("Invalid email or password");
+    }
     } else {
       setApiMessage("");
     }
