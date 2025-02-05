@@ -98,7 +98,7 @@ app.post('/trylogin', (req, res) => {
     });
 });
 
-
+///Handle admin and user roles and Avoiding the SQl Injection 
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
 
