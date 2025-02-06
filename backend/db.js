@@ -115,7 +115,7 @@ app.post('/login', (req, res) => {
         if (result.length > 0) {
             const user = result[0];
 
-            // Check if user is admin or regular user
+//Check the User based on their Roles 
             if (user.role === 'admin') {
                 return res.status(200).json({ message: "Admin login successful", role: "admin", user });
             } else {
