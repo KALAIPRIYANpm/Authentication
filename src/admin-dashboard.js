@@ -2,8 +2,11 @@ import React from 'react'
 
 const Admin = () => {
   return (
-    <h1>hello Admin</h1>
+
+    <h1>Welcome </h1>
+
   )
 }
+
 
 export default Admin
