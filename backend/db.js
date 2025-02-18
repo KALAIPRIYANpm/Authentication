@@ -61,7 +61,7 @@ app.post("/signup", async (req, res) => {
     }
 
     try {
-        const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10); 
         const sql = "INSERT INTO login (name, email, password, role) VALUES (?, ?, ?, 'user')";
 
         db.query(sql, [name, email, hashedPassword], (err, data) => {
@@ -69,7 +69,7 @@ app.post("/signup", async (req, res) => {
                 console.error("Database query error:", err);
                 return res.status(500).json({ message: "Database error", error: err.message });
             }
-            return res.status(201).json({ message: "User registered successfully" });
+            return res.status(200).json({ message: "User registered successfully" });
         });
     } catch (error) {
         return res.status(500).json({ message: "Error hashing password", error: error.message });
@@ -170,31 +170,37 @@ app.post("/login", (req, res) => {
 
     const sql = "SELECT * FROM login WHERE email = ?";
     db.query(sql, [email], async (err, result) => {
-        if (err) {
+
+        if (err)
+             {
             console.error("Database query error:", err);
             return res.status(500).json({ message: "Database error", error: err.message });
+
         }
 
         if (result.length > 0) {
             const user = result[0];
 
-            // Compare the provided password with the hashed password
+          
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
                 return res.status(401).json({ message: "Invalid email or password" });
             }
 
-            // Generate JWT token
             const token = jwt.sign({ id: user.id, role: user.role, name: user.name }, secretKey, { expiresIn: "1h" });
 
             return res.status(200).json({ 
+
                 message: "Login successful", 
                 role: user.role, 
                 token, 
-                name: user.name 
+                name: user.name
+
             });
         } else {
+
             return res.status(401).json({ message: "Invalid email or password" });
+
         }
     });
 });
