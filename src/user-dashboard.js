@@ -1,8 +1,10 @@
 import React from 'react'
 
 const User = () => {
+
+  const userName = localStorage.getItem("name");
   return (
-    <h1>Hello User</h1>
+    <h1>Hello {userName}</h1>
   )
 }
 

@@ -44,6 +44,9 @@ const LoginPage = () => {
         const res = await axios.post("http://localhost:1234/login", values);
 
         if (res.data.role === "admin") {
+
+          localStorage.setItem("token", res.data.token); 
+          localStorage.setItem("name", res.data.name); 
           setApiMessage("Welcome Admin! Redirecting...");
           setTimeout(() => navigate("/admin"), 2000);
             // navigate("/admin"); 
@@ -52,6 +55,8 @@ const LoginPage = () => {
         } else {
             // navigate("/user");
 
+            localStorage.setItem("token",res.data.token);
+            localStorage.setItem("name",res.data.name);
             setApiMessage("Welcome User! Redirecting...");
             setTimeout(() => navigate("/user"), 2000);
         }
