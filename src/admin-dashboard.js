@@ -23,14 +23,14 @@ const Admin = () => {
   
   <Button
   variant='contained'
-  color='success'
+  color='error'
   onClick={()=>navigate("/loginpage")}
   >
     Logout</Button>
     </div>
     </div>
     <div>
-      
+
     </div>
   </>
    
