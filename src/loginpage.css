@@ -1,0 +1,10 @@
+*{
+    margin: 0;
+    padding: 0;
+    background-color: grey;
+}
+
+#box .card{
+    border: 2px black solid;
+    color: white;
+}

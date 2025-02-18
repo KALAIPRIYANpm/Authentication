@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { TextField, Button, Card, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-// Validation function
 const validateInputs = (values) => {
   const errors = {};
   if (!values.email) {
@@ -11,7 +10,6 @@ const validateInputs = (values) => {
   } else if (!/\S+@\S+\.\S+/.test(values.email)) {
     errors.email = "Invalid email format";
   }
-
   if (!values.password) {
     errors.password = "Password is required";
   }
@@ -19,21 +17,15 @@ const validateInputs = (values) => {
 };
 
 const LoginPage = () => {
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [values, setValues] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [apiMessage, setApiMessage] = useState("");
   const navigate = useNavigate();
 
-  // Handle form inputs
   const handleInputs = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
-  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const validationErrors = validateInputs(values);
@@ -42,80 +34,82 @@ const LoginPage = () => {
     if (Object.keys(validationErrors).length === 0) {
       try {
         const res = await axios.post("http://localhost:1234/login", values);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("name", res.data.name);
 
         if (res.data.role === "admin") {
-
-          localStorage.setItem("token", res.data.token); 
-          localStorage.setItem("name", res.data.name); 
           setApiMessage("Welcome Admin! Redirecting...");
-          setTimeout(() => navigate("/admin"), 2000);
-            // navigate("/admin"); 
-            // setApiMessage("Welcome Admin");
-            // setTimeout("Redirecting you to Admin Page ",3000);
+          setTimeout(() => navigate("/admin"), 1000);
         } else {
-            // navigate("/user");
-
-            localStorage.setItem("token",res.data.token);
-            localStorage.setItem("name",res.data.name);
-            setApiMessage("Welcome User! Redirecting...");
-            setTimeout(() => navigate("/user"), 2000);
+          setApiMessage("Welcome User! Redirecting...");
+          setTimeout(() => navigate("/user"), 1000);
         }
-    } catch (error) {
+      } catch (error) {
         alert("Invalid email or password");
-    }
+      }
     } else {
       setApiMessage("");
     }
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-4">
-          <div className="card">
-            <div className="card-body">
-              <h2 className="text-center">Login</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    name="email"
-                    placeholder="Enter your email"
-                    onChange={handleInputs}
-                    value={values.email}
-                  />
-                  {errors.email && <span className="text-danger">{errors.email}</span>}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    placeholder="Enter your password"
-                    onChange={handleInputs}
-                    value={values.password}
-                  />
-                  {errors.password && <span className="text-danger">{errors.password}</span>}
-                </div>
-                <button type="submit" className="btn btn-primary w-100">Login</button>
-              </form>
-              {apiMessage && <p className="text-center mt-3">{apiMessage}</p>}
-              <div className="mt-3 text-center">
-                <button
-                  className="btn btn-link"
-                  onClick={() => navigate("/signup")}
-                >
-                  Don't have an account? Signup here.
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      height="100vh"
+    >
+      <Card sx={{ padding: 4, width: 300 }}>
+        <Typography variant="h4" align="center" gutterBottom>
+          Login
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            label="Email"
+            name="email"
+            variant="outlined"
+            margin="normal"
+            value={values.email}
+            onChange={handleInputs}
+            error={!!errors.email}
+            helperText={errors.email}
+          />
+          <TextField
+            fullWidth
+            label="Password"
+            name="password"
+            type="password"
+            variant="outlined"
+            margin="normal"
+            value={values.password}
+            onChange={handleInputs}
+            error={!!errors.password}
+            helperText={errors.password}
+          />
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            type="submit"
+            sx={{ marginTop: 2 }}
+          >
+            Login
+          </Button>
+        </form>
+        {apiMessage && (
+          <Typography align="center" color="green" sx={{ marginTop: 2 }}>
+            {apiMessage}
+          </Typography>
+        )}
+        <Typography align="center" sx={{ marginTop: 2 }}>
+          Don't have an account?{" "}
+          <Button color="primary" onClick={() => navigate("/signup")}>
+            Signup here.
+          </Button>
+        </Typography>
+      </Card>
+    </Box>
   );
 };
 

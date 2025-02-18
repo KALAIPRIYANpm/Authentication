@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.navigation Button{
+
+    margin-left: 1150px;
+    margin-top: -45px;
+    background-color: red;
+
+}
+
+
+.head .navigation h2{
+    /* margin-top: 20px; */
+    margin-left: 20px;
+    padding-top: 10px;
+
+}
+
+.head{
+    background-color: rgb(22, 22, 113);
+    color: white;
+    height: 50px;
+}
