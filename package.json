@@ -5,11 +5,13 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.5",
     "@mui/material": "^6.4.4",
     "axios": "^1.7.9",
     "axos": "^0.0.1",
     "bootstrap": "^5.3.3",
     "cra-template": "1.2.0",
+    "framer-motion": "^12.4.7",
     "install": "^0.13.0",
     "npm": "^11.0.0",
     "react": "^19.0.0",
