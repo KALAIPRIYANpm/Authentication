@@ -29,8 +29,30 @@ const Admin = () => {
     Logout</Button>
     </div>
     </div>
-    <div>
+    {/* <div>
 
+<h2>Create an Event </h2>
+
+    </div> */}
+<div>
+<h2>Admin Activities</h2>
+</div>
+    <div id='adminbuttons'>
+      
+<Button
+variant='contained'
+>New Event
+</Button>
+
+<Button
+variant='contained'>
+  Registrations
+  </Button>
+
+<Button
+variant='contained'>
+  OnGoing
+  </Button>
     </div>
   </>
    
