@@ -1,64 +1,61 @@
-import React from 'react'
-// import { useState } from 'react';
+import React from 'react';
 import { Button } from '@mui/material';
-import './admin.css'
 import { useNavigate } from 'react-router-dom';
-
+import './admin.css';
 
 const Admin = () => {
-
-  // const[adminName,setAdminName] = useState();
   const adminName = localStorage.getItem("name");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
+    <>
+      <div className='head'>
+        <div className='navigation'>
+          <div>
+            <h2>Welcome {adminName}</h2>
+          </div>
+          <Button
+            variant='contained'
+            color='error'
+            onClick={() => {
+              localStorage.removeItem("token");
+              localStorage.removeItem("name");
+              navigate("/loginpage");
+            }}
+          >
+            Logout
+          </Button>
+        </div>
+      </div>
 
-  <>
-  <div className='head'>
-  <div className='navigation'>
-    <div>
-  <h2>Welcome {adminName}</h2>
+      <div>
+        <h2>Admin Activities</h2>
+      </div>
 
-    </div>
-  
-  <Button
-  variant='contained'
-  color='error'
-  onClick={()=>navigate("/loginpage")}
-  >
-    Logout</Button>
-    </div>
-    </div>
-    {/* <div>
+      <div id='adminbuttons'>
+        <Button
+          variant='contained'
+          onClick={() => navigate("/create-event")}
+        >
+          New Event
+        </Button>
 
-<h2>Create an Event </h2>
+        <Button
+          variant='contained'
+          onClick={() => navigate("/registrations")}
+        >
+          Registrations
+        </Button>
 
-    </div> */}
-<div>
-<h2>Admin Activities</h2>
-</div>
-    <div id='adminbuttons'>
-      
-<Button
-variant='contained'
->New Event
-</Button>
+        <Button
+          variant='contained'
+          onClick={() => navigate("/ongoing-events")}
+        >
+          OnGoing
+        </Button>
+      </div>
+    </>
+  );
+};
 
-<Button
-variant='contained'>
-  Registrations
-  </Button>
-
-<Button
-variant='contained'>
-  OnGoing
-  </Button>
-    </div>
-  </>
-   
-
-  )
-}
-
-
-export default Admin
+export default Admin;

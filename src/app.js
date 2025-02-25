@@ -4,6 +4,9 @@ import LoginPage from './loginpage';
 import SignupPage from './signUp';
 import Admin from "./admin-dashboard";
 import User from "./user-dashboard";
+import CreateEvent from "./createEvent";
+import Registrations from "./registrations";
+import OngoingEvents from "./ongoing";
 
 const App = () => {
   return (
@@ -14,6 +17,9 @@ const App = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/admin" element={<Admin/>}/>
         <Route path="/user" element={<User/>}/>
+        <Route path="/create-event" element={<CreateEvent/>}/>
+        <Route path="/registrations" element={<Registrations/>}/>
+        <Route path="/ongoing-events" element={<OngoingEvents/>}/>
       </Routes>
     </Router>
   );
