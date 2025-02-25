@@ -45,11 +45,15 @@ const Admin = () => {
         exit={{ opacity: 0 }}
         className='p-8'
       >
+        <div className='title'>
         <Typography variant='h4' className='mb-8 text-center font-semibold'>
           Admin Activities
         </Typography>
-
-        <Grid container spacing={4} justifyContent='center'>
+        </div>
+        
+        <hr></hr>
+<div className='grid'>
+        <Grid  container spacing={4} justifyContent='center'>
           {[{ label: 'New Event', route: '/create-event' },
             { label: 'Registrations', route: '/registrations' },
             { label: 'OnGoing Events', route: '/ongoing-events' }
@@ -71,6 +75,7 @@ const Admin = () => {
             </Grid>
           ))}
         </Grid>
+        </div>
       </motion.div>
     </>
   );
