@@ -231,16 +231,17 @@ app.post("/signup", async (req, res) => {
 
 
 app.post("/events",async (req,res)=>{
-    const {title,date,description,venue,total_tickets,price} = req.body;
+    const {title,date,description,venue,total_tickets,available_tickets,price} = req.body;
 
-    if(!title || !date || !description || !venue || !total_tickets || !price){
+    if(!title || !date || !description || !venue || !total_tickets || !available_tickets ||!price){
         return res.status(400).json({message:"All fields are Required"})
     }
 
     try{
-        const sql = "INSERT INTO events (title,date,description,venue,total_tickets,price) VALUES (?,?,?,?,?,?)"
 
-        db.query(sql,[title,date,description,venue,total_tickets,price],(err,result)=>{
+        const sql = "INSERT INTO events (title,date,description,venue,total_tickets,available_tickets,price) VALUES (?,?,?,?,?,?,?)"
+
+        db.query(sql,[title,date,description,venue,total_tickets,available_tickets,price],(err,result)=>{
 
             if(err){
                 console.error("Database Query Error",err)
