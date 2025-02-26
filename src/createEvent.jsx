@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const CreateEvent = () => {
-  const [eventData, setEventData] = useState({ name: '', date: '', description: '' });
+  const [eventData, setEventData] = useState({ title:'',date:'',description:'',venue:'',total_tickets:'',available_tickets:'',price:''});
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -32,13 +32,24 @@ const CreateEvent = () => {
           <TextField
             fullWidth
             label="Event Name"
-            name="name"
-            value={eventData.name}
+            name="title"
+            value={eventData.title}
             onChange={handleChange}
             margin="normal"
             required
           />
-          <TextField
+          {/* <TextField
+            fullWidth
+            label="Description"
+            name="description"
+            type="text"
+            value={eventData.date}
+            onChange={handleChange}
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+            required
+          /> */}
+           <TextField
             fullWidth
             label="Date"
             name="date"
@@ -57,6 +68,49 @@ const CreateEvent = () => {
             onChange={handleChange}
             margin="normal"
             multiline
+            rows={4}
+            required
+          />
+           <TextField
+            fullWidth
+            label="Venue"
+            name="venue"
+            value={eventData.venue}
+            onChange={handleChange}
+            margin="normal"
+            rows={4}
+            required
+          />
+          <TextField
+            fullWidth
+            label="Total Tickets"
+            name="total_tickets"
+            value={eventData.total_tickets}
+            type='number'
+            onChange={handleChange}
+            margin="normal"
+            rows={4}
+            required
+          />
+          <TextField
+            fullWidth
+            label="Available Tickets"
+            name="available_tickets"
+            value={eventData.available_tickets}
+            type='number'
+            onChange={handleChange}
+            margin="normal"
+            rows={4}
+            required
+          />
+          <TextField
+            fullWidth
+            label="Price"
+            name="price"
+            value={eventData.price}
+            type='number'
+            onChange={handleChange}
+            margin="normal"
             rows={4}
             required
           />
