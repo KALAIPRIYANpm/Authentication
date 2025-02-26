@@ -24,3 +24,19 @@ Content-Type: application/json
     "email":"kalaipriyan7777@gmail.com",
     "password":"Kalai@2005"
 }
+
+####
+
+POST http://localhost:1234/events
+Content-Type: application/json
+
+{
+    
+    "title":"Movie",
+    "date":"2020-04-05",
+    "description":"Movie",
+    "venue":"thetre",
+    "total_tickets":"100",
+    "available_tickets":"200",
+    "price":"200"
+}
