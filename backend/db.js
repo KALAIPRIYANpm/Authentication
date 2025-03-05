@@ -74,7 +74,9 @@ app.post("/signup", async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: "Error hashing password", error: error.message });
     }
+
 });
+
 
 
 // app.post('/login', (req, res) => {
