@@ -40,3 +40,11 @@ Content-Type: application/json
     "available_tickets":"200",
     "price":"200"
 }
+
+
+###
+GET http://localhost:1234/regList
+
+###
+GET http://localhost:1234/regList
+

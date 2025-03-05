@@ -4,8 +4,9 @@ const bodyparser = require('body-parser');
 const cors = require('cors');
 const jwt = require("jsonwebtoken");
 const secretKey = "yourSecretKey"
-
 const app = express();
+
+
 app.use(cors());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
@@ -49,7 +50,6 @@ app.listen(1234, () => {
 //         return res.status(200).json({ message: "User registered successfully", data });
 //     });
 // });
-
 
 const bcrypt = require("bcryptjs");
 
@@ -156,14 +156,9 @@ app.post("/signup", async (req, res) => {
 //     });
 // });
 
-
-
-
 ////bcrypt////
 
-
-
-app.post("/login", (req, res) => {
+app.post("/login", (req,res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -254,4 +249,22 @@ app.post("/events",async (req,res)=>{
     } catch(error){
         return res.status(500).json({message:"error"})
     }
+})
+
+
+///get method for user event details view 
+
+app.get("/regList",async (req,res)=>{
+    
+    const sql = "SELECT * FROM events";
+    db.query(sql,(err,result)=>{
+        if (err) 
+            {
+            return res.status(500).json(err);
+        }
+        else{
+            res.json(result);
+        }
+       
+    })
 })
