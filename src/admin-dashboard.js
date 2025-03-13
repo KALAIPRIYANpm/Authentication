@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Typography, Button, Card, CardContent, Grid } from '@m
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './admin.css';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Admin = () => {
   const adminName = localStorage.getItem('name');
@@ -35,7 +36,13 @@ const Admin = () => {
             Logout
           </Button>
           </div>
-         
+          
+         <div>
+         <AccountCircleIcon
+         height="100"
+         width="100"
+         />
+         </div>
         </Toolbar>
       </AppBar>
 
