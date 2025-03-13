@@ -268,3 +268,18 @@ app.get("/regList",async (req,res)=>{
        
     })
 })
+
+app.get("/adminDetails",async (req,res)=>{
+
+    const sql = "SELECT name && role FROM login  ";
+
+    db.query(sql,(err,result)=>{
+        if(err){
+            return res.status(500).json(err)
+
+        }
+        else{
+            res.json(result);
+        }
+    })
+})

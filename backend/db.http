@@ -48,3 +48,6 @@ GET http://localhost:1234/regList
 ###
 GET http://localhost:1234/regList
 
+###
+GET http://localhost:1234/adminDetails
+
