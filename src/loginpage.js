@@ -3,6 +3,7 @@ import { TextField, Button, Card, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+
 const validateInputs = (values) => {
   const errors = {};
   if (!values.email) {
