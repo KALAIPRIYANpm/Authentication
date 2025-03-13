@@ -191,7 +191,8 @@ app.post("/login", (req,res) => {
                 message: "Login successful", 
                 role: user.role, 
                 token, 
-                name: user.name
+                name :  user.name,
+                adminId : user.id
 
             });
         } else {
@@ -269,17 +270,17 @@ app.get("/regList",async (req,res)=>{
     })
 })
 
-app.get("/adminDetails",async (req,res)=>{
+app.get("/adminDetails", (req, res) => {
+    const adminId = req.query.id; 
+    const sql = "SELECT name, role FROM login WHERE id = ?";
 
-    const sql = "SELECT name && role FROM login  ";
-
-    db.query(sql,(err,result)=>{
-        if(err){
-            return res.status(500).json(err)
-
+    db.query(sql, [adminId], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: "Database error", details: err });
         }
-        else{
-            res.json(result);
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Admin not found" });
         }
-    })
-})
+        res.json(result[0]); 
+    });
+});
