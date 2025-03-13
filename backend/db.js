@@ -284,3 +284,29 @@ app.get("/adminDetails", (req, res) => {
         res.json(result[0]); 
     });
 });
+
+
+app.post("/booking",(req,res)=>{
+    const{number,name,email,mobile} = req.body;
+
+    if(!number || !name || !email || !mobile){
+        return res.status(400).json({message:"All fields are Required"})
+
+    }
+    try{
+        const sql = "INSERT INTO booking (number,name,email,mobile) VALUES (?,?,?,?)"
+
+        db.query(sql,[number,name,email,mobile],(err,result)=>{
+
+            if(err){
+                return res.status(500).json({message:"Database Error",error:err.message})
+            }
+            else{
+                return res.status(200).json({message:"Posted Successfully"});
+            }
+        });
+    }catch(error){
+        return res.status(500).json({message:"error",error:err.message})
+    }
+
+})

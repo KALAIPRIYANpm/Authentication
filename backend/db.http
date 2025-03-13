@@ -51,3 +51,17 @@ GET http://localhost:1234/regList
 ###
 GET http://localhost:1234/adminDetails
 
+
+###
+POST http://localhost:1234/booking
+Content-Type: application/json
+
+{
+    "number":100,
+    "name":"Rahul",
+    "email":"rahul123@gmail.com",
+    "mobile":123456789
+}
+
+
+
