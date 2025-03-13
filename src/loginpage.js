@@ -36,6 +36,9 @@ const LoginPage = () => {
         const res = await axios.post("http://localhost:1234/login", values);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("name", res.data.name);
+        localStorage.setItem("adminId",res.data.adminId);
+        // console.log("Stored Admin ID:", res.data.adminId); 
+        // alert("Stored Admin ID: " + res.data.adminId); 
 
         if (res.data.role === "admin") {
           setApiMessage("Welcome Admin! Redirecting...");

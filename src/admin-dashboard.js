@@ -1,13 +1,44 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Card, CardContent, Grid } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Card, CardContent, Grid, Dialog } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './admin.css';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import axios from 'axios';
+import { useState } from 'react';
 
 const Admin = () => {
   const adminName = localStorage.getItem('name');
   const navigate = useNavigate();
+
+  const [adminDetails , setAdminDetails] = useState(null);
+  const [open,setOpen] = useState(false);
+
+  const fetchAdminDetails = async () =>{
+
+    const adminId = localStorage.getItem("adminId");
+    // console.log("Stored Admin Id :",adminId);
+    // alert(adminId);
+
+    if (!adminId) 
+      {
+        console.error("Admin ID not found in localStorage");
+        return;
+    }
+
+    try
+    {
+
+      const response = await axios.get(`http://localhost:1234/adminDetails?id=${adminId}`);
+      setAdminDetails(response.data);
+      setOpen(true);
+
+    }catch(error)
+    {
+      console.log("Error fetching the records",error);
+    }
+  };
+
 
   return (
     <>
@@ -17,9 +48,9 @@ const Admin = () => {
             Admin Dashboard
           </Typography>
           <div className='margin'>
-          <Typography  variant='h6'>
+          {/* <Typography  variant='h6'>
             Welcome, {adminName}
-          </Typography>
+          </Typography> */}
           </div>
           
           <div className='logout'>
@@ -39,12 +70,37 @@ const Admin = () => {
           
          <div>
          <AccountCircleIcon
-         height="100"
-         width="100"
-         />
+            fontSize="large"
+            style={{ cursor: "pointer", marginLeft: "15px" }}
+            onClick={fetchAdminDetails}
+          />
          </div>
         </Toolbar>
       </AppBar>
+
+
+      <Dialog open={open} onClose={()=>setOpen(false)}>
+
+        {adminDetails && (
+          <Card style={{ padding: "20px", width: "300px", textAlign: "center" }}>
+            <CardContent>
+              <Typography
+              
+              variant='h6'>
+                Name : {adminDetails.name}
+              </Typography>
+              <Typography
+              variant='body2'>
+                Role : {adminDetails.role}
+              </Typography>
+              <Button variant='contained' color='primary' onClick={()=>setOpen(false)}>
+                Close
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+      </Dialog>
 
       <motion.div
         initial={{ opacity: 0 }}
