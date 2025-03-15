@@ -1,7 +1,8 @@
 import React from 'react'
-import { useState , useEffect } from 'react';
+import { useState } from 'react';
 import { TextField, Button, Container, Typography, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 const Booking = () => {
@@ -13,7 +14,7 @@ const Booking = () => {
         mobile:""
     });
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const handleChange = (e) =>{
         setBooking({
@@ -28,13 +29,15 @@ const handleSubmit = async (e)=>{
     try{
         await axios.post(`http://localhost:1234/booking`,booking)
         alert("Tickets Booked Successfully");
-        Navigate("/user")
     }catch(error){
         console.log("Failed to book a Ticket",error);
     }
 }
 
+
+
   return (
+
     <>
 
 <Container>
@@ -76,6 +79,8 @@ const handleSubmit = async (e)=>{
             onChange={handleChange}
             type='number'
             />
+
+            <Button onClick={handleSubmit}>Confirm</Button>
         </Typography>
     </Paper>
 
@@ -83,6 +88,7 @@ const handleSubmit = async (e)=>{
 
 
     </>
+    
   )
 }
 
