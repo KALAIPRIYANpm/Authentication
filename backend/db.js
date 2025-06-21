@@ -286,6 +286,8 @@ app.get("/adminDetails", (req, res) => {
 });
 
 
+//booking backend
+
 app.post("/booking",(req,res)=>{
     const{number,name,email,mobile} = req.body;
 
@@ -308,5 +310,5 @@ app.post("/booking",(req,res)=>{
     }catch(error){
         return res.status(500).json({message:"error",error:err.message})
     }
-
-})
+});
+   
