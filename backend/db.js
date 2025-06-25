@@ -5,6 +5,7 @@ const cors = require('cors');
 const jwt = require("jsonwebtoken");
 const secretKey = "yourSecretKey"
 const app = express();
+app.use(express.json());
 
 
 app.use(cors());
@@ -54,29 +55,42 @@ app.listen(1234, () => {
 const bcrypt = require("bcryptjs");
 
 app.post("/signup", async (req, res) => {
-    const { name, email, password } = req.body;
+  const { name, email, password } = req.body;
 
-    if (!name || !email || !password) {
-        return res.status(400).json({ message: "All fields are required" });
+  console.log("Received signup request with data:", req.body);
+
+  // Input validation
+  if (!name || !email || !password) {
+    console.log("Signup failed: Missing fields");
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    // Ensure password is a string
+    if (typeof password !== "string") {
+      console.error("Password is not a valid string:", password);
+      return res.status(400).json({ message: "Password must be a string" });
     }
 
-    try {
-        const hashedPassword = await bcrypt.hash(password, 10); 
-        const sql = "INSERT INTO login (name, email, password, role) VALUES (?, ?, ?, 'user')";
+    console.log("Hashing password...");
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("Password hashed successfully.");
 
-        db.query(sql, [name, email, hashedPassword], (err, data) => {
-            if (err) {
-                console.error("Database query error:", err);
-                return res.status(500).json({ message: "Database error", error: err.message });
-            }
-            return res.status(200).json({ message: "User registered successfully" });
-        });
-    } catch (error) {
-        return res.status(500).json({ message: "Error hashing password", error: error.message });
-    }
+    const sql = "INSERT INTO login (name, email, password, role) VALUES (?, ?, ?, 'user')";
 
+    db.query(sql, [name, email, hashedPassword], (err, result) => {
+      if (err) {
+        console.error("Database insert error:", err.message);
+        return res.status(500).json({ message: "Database error", error: err.message });
+      }
+      console.log("User inserted successfully:", result.insertId);
+      return res.status(200).json({ message: "User registered successfully", userId: result.insertId });
+    });
+  } catch (error) {
+    console.error("Error during signup:", error);
+    return res.status(500).json({ message: "Hashing error", error: error.message });
+  }
 });
-
 
 
 // app.post('/login', (req, res) => {
@@ -285,7 +299,6 @@ app.get("/adminDetails", (req, res) => {
     });
 });
 
-
 //booking backend
 
 app.post("/booking",(req,res)=>{
@@ -293,7 +306,6 @@ app.post("/booking",(req,res)=>{
 
     if(!number || !name || !email || !mobile){
         return res.status(400).json({message:"All fields are Required"})
-
     }
     try{
         const sql = "INSERT INTO booking (number,name,email,mobile) VALUES (?,?,?,?)"
@@ -307,8 +319,8 @@ app.post("/booking",(req,res)=>{
                 return res.status(200).json({message:"Posted Successfully"});
             }
         });
-    }catch(error){
+    }
+    catch(error){
         return res.status(500).json({message:"error",error:err.message})
     }
 });
-   

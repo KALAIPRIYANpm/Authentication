@@ -57,11 +57,20 @@ POST http://localhost:1234/booking
 Content-Type: application/json
 
 {
-    "number":100,
-    "name":"Rahul",
-    "email":"rahul123@gmail.com",
-    "mobile":123456789
+    "number":170,
+    "name":"Danush",
+    "email":"danush@gmail.com",
+    "mobile":098765432
 }
 
+###
+POST http://localhost:1234/signup
+Content-Type: application/json
+
+{
+    "name":"kanish",
+    "email":"kanish@gmail.com",
+    "password":"kanish@2007"
+}
 
 
