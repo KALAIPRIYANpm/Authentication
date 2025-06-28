@@ -392,3 +392,76 @@ app.get("/registrations/:eventId", (req, res) => {
     res.json(results);
   });
 });
+
+
+
+// GET ongoing events with booking count
+app.get("/admin/ongoing-events", (req, res) => {
+  const sql = `
+    SELECT 
+      e.id, e.title, e.venue, e.date, e.total_tickets,
+      COALESCE(SUM(b.ticket_count), 0) AS tickets_filled
+    FROM events e
+    LEFT JOIN bookings b ON e.id = b.event_id
+    GROUP BY e.id
+  `;
+  db.query(sql, (err, result) => {
+    if (err) return res.status(500).json({ message: "Error fetching events", error: err.message });
+    res.json(result);
+  });
+});
+
+// DELETE an event
+app.delete("/admin/delete-event/:id", (req, res) => {
+  const eventId = req.params.id;
+
+  const deleteBookings = `DELETE FROM bookings WHERE event_id = ?`;
+  const deleteEvent = `DELETE FROM events WHERE id = ?`;
+
+  db.query(deleteBookings, [eventId], (err) => {
+    if (err) return res.status(500).json({ message: "Error deleting bookings", error: err.message });
+
+    db.query(deleteEvent, [eventId], (err2) => {
+      if (err2) return res.status(500).json({ message: "Error deleting event", error: err2.message });
+
+      res.json({ message: "Event and related bookings deleted successfully" });
+    });
+  });
+});
+
+
+app.get("/event/:id", (req, res) => {
+  const eventId = req.params.id;
+  const sql = `
+    SELECT e.*, COALESCE(SUM(b.ticket_count), 0) AS tickets_booked
+    FROM events e
+    LEFT JOIN bookings b ON e.id = b.event_id
+    WHERE e.id = ?
+    GROUP BY e.id
+  `;
+  db.query(sql, [eventId], (err, result) => {
+    if (err) return res.status(500).json({ message: "Database error", error: err.message });
+    if (result.length === 0) return res.status(404).json({ message: "Event not found" });
+    res.json(result[0]);
+  });
+});
+
+
+// server.js or your Express app file
+app.get("/userBookings", (req, res) => {
+  const userId = req.query.userId;
+  const sql = `
+    SELECT e.title, e.date, e.venue, e.price, b.ticket_count 
+    FROM bookings b 
+    JOIN events e ON b.event_id = e.id 
+    WHERE b.user_id = ?
+  `;
+
+  db.query(sql, [userId], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Database error", error: err.message });
+    }
+    res.json(results);
+  });
+});
+

@@ -87,3 +87,4 @@ Content-Type: application/json
 
 ###
 GET http://localhost:1234/registrations/1
+
