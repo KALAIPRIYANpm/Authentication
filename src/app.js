@@ -8,6 +8,7 @@ import CreateEvent from "./createEvent";
 import Registrations from "./registrations";
 import OngoingEvents from "./ongoing";
 import BookingForm from "./bookingForm";
+import MyBookings from "./myBookings";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/registrations" element={<Registrations/>}/>
         <Route path="/ongoing-events" element={<OngoingEvents/>}/>
         <Route path="/booking/:eventId" element={<BookingForm/>} />
+        <Route path="/my-bookings" element={<MyBookings />} />
 
       </Routes>
     </Router>

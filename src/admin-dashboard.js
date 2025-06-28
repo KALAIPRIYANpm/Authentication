@@ -13,7 +13,8 @@ import {
   Badge,
   Divider,
   Box,
-  Container
+  Container,
+  Chip
 } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -29,10 +30,10 @@ import { motion } from 'framer-motion';
 import './admin.css';
 
 const Admin = () => {
-  const adminName = localStorage.getItem('name');
   const navigate = useNavigate();
   const [adminDetails, setAdminDetails] = useState(null);
   const [open, setOpen] = useState(false);
+  const adminName = localStorage.getItem('name');
 
   const fetchAdminDetails = async () => {
     const adminId = localStorage.getItem("adminId");
@@ -59,81 +60,118 @@ const Admin = () => {
   ];
 
   return (
-    <>
-      {/* Header AppBar */}
-      <AppBar position="static" sx={{ background: 'linear-gradient(to right, #8e2de2, #4a00e0)', mb: 4 }}>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="h5" fontWeight="bold" sx={{ letterSpacing: 1 }}>
-            🎩 Event Admin Wizard
-          </Typography>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Tooltip title="Notifications">
-              <IconButton color="inherit">
-                <Badge badgeContent={3} color="error">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Settings">
-              <IconButton color="inherit">
-                <SettingsIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Profile">
-              <IconButton color="inherit" onClick={fetchAdminDetails}>
-                <AccountCircleIcon fontSize="large" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Logout">
-              <IconButton color="error" onClick={handleLogout}>
-                <LogoutIcon />
-              </IconButton>
-            </Tooltip>
-          </div>
-        </Toolbar>
-      </AppBar>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        background: 'linear-gradient(to bottom right, #e8f5fe, #ffffff)',
+        fontFamily: '"Poppins", sans-serif',
+        pb: 10
+      }}
+    >
+      {/* AppBar */}
+<AppBar
+  position="static"
+  sx={{
+    background: 'linear-gradient(to right, #4facfe, #4facfe)', // updated gradient
+    color: '#ffffff',
+    boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+  }}
+>
+  <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Typography variant="h5"  fontWeight="bold" letterSpacing={1}>
+       EventZone Admin
+    </Typography>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Tooltip title="Notifications">
+        <IconButton color="inherit">
+          <Badge badgeContent={3} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Settings">
+        <IconButton color="inherit">
+          <SettingsIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Profile">
+        <IconButton  color="inherit" onClick={fetchAdminDetails}>
+          <AccountCircleIcon fontSize="large" />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Logout">
+        <IconButton sx={{ color: 'red' }} onClick={handleLogout}>
+          <LogoutIcon />
+        </IconButton>
+      </Tooltip>
+    </Box>
+  </Toolbar>
+</AppBar>
 
-      {/* Admin Detail Dialog */}
+
+      {/* Profile Dialog */}
       <Dialog open={open} onClose={() => setOpen(false)}>
         {adminDetails && (
-          <Card style={{ padding: 20, width: 320, textAlign: 'center' }}>
+          <Card sx={{ p: 3, width: 320 }}>
             <CardContent>
-              <Typography variant="h6">👤 {adminDetails.name}</Typography>
-              <Typography variant="body2" color="textSecondary">
+              <Typography variant="h6" gutterBottom>👤 {adminDetails.name}</Typography>
+              <Typography variant="body2" color="text.secondary">
                 Role: {adminDetails.role}
               </Typography>
               <Divider sx={{ my: 2 }} />
-              <Button variant="contained" onClick={() => setOpen(false)}>
-                Close
-              </Button>
+              <Button variant="contained" onClick={() => setOpen(false)}>Close</Button>
             </CardContent>
           </Card>
         )}
       </Dialog>
 
-      {/* Admin Controls */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-10 px-6">
-        <Container>
+      {/* Main Content */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <Container sx={{ py: 6 }}>
           <Typography variant="h4" align="center" fontWeight="bold" gutterBottom>
-            🧙‍♂️ Admin Control Panel
+            Welcome back, {adminName || "Admin"} 
           </Typography>
-          <Typography align="center" sx={{ mb: 5 }} color="textSecondary">
-            Manage everything from one magical space ✨
+          <Typography align="center" sx={{ mb: 5 }} color="text.secondary">
+            Use the panel below to manage, monitor, and modify all events with ease.
           </Typography>
 
           <Grid container spacing={4} justifyContent="center">
             {actions.map((item, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
                 <motion.div whileHover={{ scale: 1.05 }}>
-                  <Card sx={{ borderRadius: 5, boxShadow: 10, textAlign: 'center', p: 3, background: 'linear-gradient(to bottom right, #ffffff, #e0f7fa)' }}>
+                  <Card
+                    sx={{
+                      borderRadius: 4,
+                      p: 3,
+                      textAlign: 'center',
+                      background: '#ffffff',
+                      boxShadow: '0 6px 18px rgba(0,0,0,0.06)',
+                      transition: '0.3s'
+                    }}
+                  >
                     <CardContent>
-                      <IconButton sx={{ bgcolor: '#673ab7', color: 'white', mb: 2 }}>
+                      <IconButton
+                        sx={{
+                          bgcolor: '#2196f3',
+                          color: 'white',
+                          mb: 2,
+                          '&:hover': { bgcolor: '#64b5f6' }
+                        }}
+                      >
                         {item.icon}
                       </IconButton>
                       <Typography variant="h6" fontWeight="medium" gutterBottom>
                         {item.label}
                       </Typography>
-                      <Button variant="contained" color="primary" onClick={() => navigate(item.route)}>
+                      <Button
+                        variant="contained"
+                        onClick={() => navigate(item.route)}
+                        sx={{
+                          backgroundColor: '#2196f3',
+                          '&:hover': { backgroundColor: '#42a5f5' },
+                          px: 4
+                        }}
+                      >
                         Go
                       </Button>
                     </CardContent>
@@ -142,9 +180,17 @@ const Admin = () => {
               </Grid>
             ))}
           </Grid>
+
+          {/* Footer */}
+          <Box mt={8} textAlign="center">
+            <Chip label="EventZone Admin Portal v1.0" color="primary" />
+            <Typography variant="caption" color="text.secondary" display="block" mt={1}>
+              © {new Date().getFullYear()} EventZone. Need help? Contact support.
+            </Typography>
+          </Box>
         </Container>
       </motion.div>
-    </>
+    </Box>
   );
 };
 
