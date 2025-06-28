@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.margin{
+    margin-left: 250px;
+    padding-top: 4px;
+}
+
+.logout{
+    margin-left: 640px;
+}
+
+.title{
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.grid{
+    margin-top: 20px;
+}
+
+hr{
+    border: solid 1px;
+}
+
+.name{
+    margin-left: 200px;
+}

@@ -38,6 +38,13 @@ const LoginPage = () => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("name", res.data.name);
         localStorage.setItem("adminId",res.data.adminId);
+        localStorage.setItem("userId", res.data.userId); 
+        localStorage.setItem("name", res.data.name);
+        localStorage.setItem("role", res.data.role);
+        localStorage.setItem("token", res.data.token);
+
+
+
         // console.log("Stored Admin ID:", res.data.adminId); 
         // alert("Stored Admin ID: " + res.data.adminId); 
 

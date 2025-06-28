@@ -4,20 +4,20 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const CreateEvent = () => {
-  const [eventData, setEventData] = useState({ title:'',date:'',description:'',venue:'',total_tickets:'',available_tickets:'',price:''});
+  const [eventData,setEventData] = useState({ title:'',date:'',description:'',venue:'',total_tickets:'',available_tickets:'',price:''});
   const navigate = useNavigate();
-
   const handleChange = (e) => {
     setEventData({ ...eventData, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
+    try 
+    {
       await axios.post('http://localhost:1234/events', eventData);
       alert('Event created successfully!');
       navigate('/admin');
-    } catch (error) {
+    }
+     catch(error) {
       console.error('Failed to create event:', error);
     }
   };
@@ -38,17 +38,7 @@ const CreateEvent = () => {
             margin="normal"
             required
           />
-          {/* <TextField
-            fullWidth
-            label="Description"
-            name="description"
-            type="text"
-            value={eventData.date}
-            onChange={handleChange}
-            margin="normal"
-            InputLabelProps={{ shrink: true }}
-            required
-          /> */}
+
            <TextField
             fullWidth
             label="Date"
