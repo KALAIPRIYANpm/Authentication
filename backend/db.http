@@ -74,3 +74,16 @@ Content-Type: application/json
 }
 
 
+###
+POST http://localhost:1234/book
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "eventId": 2,
+  "email": "kalaipriyan@gmail.com",
+  "ticketCount": 100
+}
+
+###
+GET http://localhost:1234/registrations/1

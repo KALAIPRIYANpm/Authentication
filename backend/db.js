@@ -206,7 +206,8 @@ app.post("/login", (req,res) => {
                 role: user.role, 
                 token, 
                 name :  user.name,
-                adminId : user.id
+                adminId : user.id,
+                userId:user.id
 
             });
         } else {
@@ -281,8 +282,8 @@ app.get("/regList",async (req,res)=>{
             res.json(result);
         }
        
-    })
-})
+    });
+});
 
 app.get("/adminDetails", (req, res) => {
     const adminId = req.query.id; 
@@ -303,7 +304,6 @@ app.get("/adminDetails", (req, res) => {
 
 app.post("/booking",(req,res)=>{
     const{number,name,email,mobile} = req.body;
-
     if(!number || !name || !email || !mobile){
         return res.status(400).json({message:"All fields are Required"})
     }
@@ -320,7 +320,75 @@ app.post("/booking",(req,res)=>{
             }
         });
     }
+
     catch(error){
         return res.status(500).json({message:"error",error:err.message})
     }
+
+});
+
+
+//fetching the user details
+
+app.get("/userDetails", (req, res) => {
+  const userId = req.query.id;
+
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+
+  const sql = "SELECT name, role FROM login WHERE id = ?";
+  db.query(sql, [userId], (err, result) => {
+    if (err) return res.status(500).json({ message: "Database error", error: err.message });
+    if (result.length === 0) return res.status(404).json({ message: "User not found" });
+    res.json(result[0]);
+  });
+});
+
+
+//Booking table 
+
+app.post("/book", (req, res) => {
+  const { userId, eventId, email, ticketCount } = req.body;
+
+  if (!userId || !eventId || !email || !ticketCount) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  const sql = `INSERT INTO bookings (user_id, event_id, email, ticket_count)
+               VALUES (?, ?, ?, ?)`;
+
+  db.query(sql, [userId, eventId, email, ticketCount], (err, result) => {
+    if (err) {
+      console.error("Booking error:", err);
+      return res.status(500).json({ message: "Database error", error: err.message });
+    }
+
+    return res.status(200).json({ message: "Booking successful!" });
+  });
+});
+
+// Get registrations for a specific event
+app.get("/registrations/:eventId", (req, res) => {
+  const eventId = req.params.eventId;
+
+  const sql = `
+    SELECT 
+      b.id,
+      u.name AS userName,
+      u.email,
+      b.ticket_count,
+      b.booking_time
+    FROM bookings b
+    JOIN login u ON b.user_id = u.id
+    WHERE b.event_id = ?
+    ORDER BY b.booking_time DESC
+  `;
+
+  db.query(sql, [eventId], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Database error", error: err.message });
+    }
+    res.json(results);
+  });
 });
